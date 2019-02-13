@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="12">
+      <Unit0>
+        <Filename Value="cards_msr.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="12" Y="8"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="forms\main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="171"/>
+        <CursorPos X="24" Y="84"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="src\uconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="37"/>
+        <CursorPos X="49" Y="51"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="src\ucardworker.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="70"/>
+        <CursorPos X="28" Y="93"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="src\msr\umsrworker.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="76"/>
+        <CursorPos X="16" Y="54"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="src\msr\uother.pas"/>
+        <EditorIndex Value="10"/>
+        <CursorPos X="24" Y="14"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="src\msr\udatabuilder.pas"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="49"/>
+        <CursorPos X="35" Y="64"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="forms\frmcancel.pas"/>
+        <ComponentName Value="cnclFrm"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="20"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="1232"/>
+        <CursorPos X="11" Y="1247"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="forms\frmcancel.pas"/>
+        <ComponentName Value="cnclFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="11"/>
+        <CursorPos X="40" Y="20"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="src\msr\utransport.pas"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="145"/>
+        <CursorPos X="8" Y="172"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1834"/>
+        <CursorPos X="3" Y="1848"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit11>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="80" Column="43" TopLine="58"/>
+      </Position1>
+      <Position2>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="49" Column="3" TopLine="31"/>
+      </Position2>
+      <Position3>
+        <Filename Value="src\ucardworker.pas"/>
+        <Caret Line="28" Column="19"/>
+      </Position3>
+      <Position4>
+        <Filename Value="src\ucardworker.pas"/>
+        <Caret Line="26" Column="21"/>
+      </Position4>
+      <Position5>
+        <Filename Value="src\msr\umsrworker.pas"/>
+        <Caret Line="62" Column="3" TopLine="110"/>
+      </Position5>
+      <Position6>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="28" Column="17" TopLine="13"/>
+      </Position6>
+      <Position7>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="8" Column="29"/>
+      </Position7>
+      <Position8>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="163" Column="7" TopLine="146"/>
+      </Position8>
+      <Position9>
+        <Filename Value="src\msr\umsrworker.pas"/>
+        <Caret Line="62" Column="3"/>
+      </Position9>
+      <Position10>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="24" Column="19" TopLine="24"/>
+      </Position10>
+      <Position11>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="29" Column="17" TopLine="9"/>
+      </Position11>
+      <Position12>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="26" Column="19" TopLine="16"/>
+      </Position12>
+      <Position13>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="27" Column="22" TopLine="7"/>
+      </Position13>
+      <Position14>
+        <Filename Value="src\msr\umsrworker.pas"/>
+        <Caret Line="27" Column="20"/>
+      </Position14>
+      <Position15>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="193" Column="20" TopLine="170"/>
+      </Position15>
+      <Position16>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="37" Column="14" TopLine="24"/>
+      </Position16>
+      <Position17>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="38" Column="38" TopLine="22"/>
+      </Position17>
+      <Position18>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="28" Column="20" TopLine="25"/>
+      </Position18>
+      <Position19>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="108" Column="24" TopLine="28"/>
+      </Position19>
+      <Position20>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="110" Column="24" TopLine="81"/>
+      </Position20>
+      <Position21>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="167" Column="26" TopLine="163"/>
+      </Position21>
+      <Position22>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="170" Column="14" TopLine="155"/>
+      </Position22>
+      <Position23>
+        <Filename Value="src\msr\umsrworker.pas"/>
+        <Caret Line="136" Column="17" TopLine="111"/>
+      </Position23>
+      <Position24>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="165" Column="83" TopLine="150"/>
+      </Position24>
+      <Position25>
+        <Filename Value="src\msr\utransport.pas"/>
+        <Caret Line="28" Column="19" TopLine="27"/>
+      </Position25>
+      <Position26>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="83" Column="18" TopLine="73"/>
+      </Position26>
+      <Position27>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="82" Column="18" TopLine="72"/>
+      </Position27>
+      <Position28>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="81" Column="38" TopLine="73"/>
+      </Position28>
+      <Position29>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="83" Column="50" TopLine="69"/>
+      </Position29>
+      <Position30>
+        <Filename Value="forms\main.pas"/>
+        <Caret Line="9" Column="66"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
