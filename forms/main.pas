@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ComCtrls,
-  Menus, LCLtype, LCLIntf, ExtCtrls, ucardworker, uconfig, uother;
+  Menus, LCLtype, LCLIntf, ExtCtrls, ucardworker, uconfig, uother,cfgfrm;
 
 type
 
@@ -31,6 +31,7 @@ type
     procedure btnExitClick(Sender: TObject);
     procedure btnMultipleCardClick(Sender: TObject);
     procedure btnReadCardClick(Sender: TObject);
+    procedure btnSettingsClick(Sender: TObject);
     procedure btnWriteCardClick(Sender: TObject);
     procedure clcTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -136,6 +137,11 @@ begin
       infoMemo.Lines.Add(E.Message);
   end;
 
+end;
+
+procedure TMainForm.btnSettingsClick(Sender: TObject);
+begin
+  frmcfg.ShowModal;
 end;
 
 procedure TMainForm.btnWriteCardClick(Sender: TObject);

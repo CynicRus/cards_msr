@@ -82,6 +82,7 @@ object MainForm: TMainForm
       Top = 2
       Caption = 'btnSettings'
       ImageIndex = 4
+      OnClick = btnSettingsClick
     end
   end
   object infoGB: TGroupBox
