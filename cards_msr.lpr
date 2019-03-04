@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main, uconfig, ucardworker;
+  Forms, main, uconfig, ucardworker, cfgfrm,frmcancel, ucardthread;
 
 {$R *.res}
 
@@ -16,7 +16,8 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
-  //Application.CreateForm(TcnclFrm, cnclFrm);
+  Application.CreateForm(TfrmCfg, frmCfg);
+  Application.CreateForm(TcnclFrm, cnclFrm);
   Application.Run;
 end.
 

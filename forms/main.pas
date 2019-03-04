@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ComCtrls,
-  Menus, LCLtype, LCLIntf, ExtCtrls, ucardworker, uconfig, uother,cfgfrm;
+  Menus,Windows, LCLIntf,Lmessages, ExtCtrls, ucardworker, uconfig, uother,cfgfrm, ucardthread, frmcancel;
 
 type
 
@@ -42,15 +42,21 @@ type
 
   public
     procedure Output(const S: string);
+    procedure Status(const S: string);
     procedure Cancel();
+    procedure OnThreadLog(var aMessage: TLMessage);
+    message WM_THREAD_LOG;
+    procedure OnThreadState(var aMessage: TLMessage);
+    message WM_THREAD_STATE;
 
   end;
 
 var
   MainForm: TMainForm;
-  CardWorker: TCardWorker;
-  RunFlag: boolean = False;
+  //CardWorker: TCardWorker;
+  //RunFlag: boolean = False;
   //curValue: int64;
+  WorkerThread: TCardThread;
 
 implementation
 
@@ -65,78 +71,20 @@ begin
 end;
 
 procedure TMainForm.btnMultipleCardClick(Sender: TObject);
-var
-  Response: string;
 begin
-  if CardWorker.State = csNoConn then
-    exit;
-  RunFlag := True;
-  try
-    while RunFlag do
-    begin
-      Output('Пишу карту:');
-      Output('Записано: '+ CardWorker.WriteCard());
-      Output('Операция завершена.');
-      config.CurrentCardValue := Config.CurrentCardValue + 1;
-      //config.Save;
-      Application.ProcessMessages;
-    end;
-
-    CardWorker.Reset();
-  except
-    on E: Exception do
-      infoMemo.Lines.Add(E.Message);
-  end;
-
+  PostThreadMessage(WorkerThread.ThreadID,WM_TASK_WRITE_BATCH_CARD,0,0);
+  cnclFrm.ShowModal;
 end;
 
 procedure TMainForm.btnCleanCardClick(Sender: TObject);
-var
-  Response: string;
 begin
-  if CardWorker.State = csNoConn then
-    exit;
-  RunFlag := True;
-  try
-    while RunFlag do
-    begin
-      Output('Очищаю карту:');
-      CardWorker.EraseCard();
-      Output('Операция завершена.');
-      Application.ProcessMessages;
-    end;
-
-    CardWorker.Reset();
-  except
-    on E: Exception do
-      infoMemo.Lines.Add(E.Message);
-  end;
-
+  cnclFrm.ShowModal;
 end;
 
 //читаем вторую дорожку с карты
 procedure TMainForm.btnReadCardClick(Sender: TObject);
-var
-  Response: string;
 begin
-  if CardWorker.State = csNoConn then
-    exit;
-  try
-    Output('Читаю карту:');
-
-    Response := CardWorker.ReadCard();
-
-    Response := ExtractBetween(Response, ';', '?');
-    if Length(Response) > 0 then
-      Output(Response)
-    else
-      Output('Карта пуста.');
-    Output('Операция завершена.');
-  except
-    on E: Exception do
-      infoMemo.Lines.Add(E.Message);
-  end;
-
+  PostThreadMessage(WorkerThread.ThreadID,WM_TASK_READ_CARD,0,0);
 end;
 
 procedure TMainForm.btnSettingsClick(Sender: TObject);
@@ -151,9 +99,7 @@ begin
   Data := config.CardPrefix;
   if InputQuery( 'ввод карты:', 'введите номер:', Data) then
     begin
-      Output('Запись карты:');
-      Output('Записано: '+ CardWorker.WriteCard(Data));
-      Output('Операция завершена.');
+      PostThreadMessage(WorkerThread.ThreadID,WM_TASK_WRITE_SINGLE_CARD,0,Integer(PChar(Data)));
     end;
 end;
 
@@ -167,13 +113,12 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  CardWorker := TCardWorker.Create;
-  CardWorker.Connect;
+  WorkerThread := TCardThread.Create(false,MainForm.Handle);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-  CardWorker.Free;
+  WorkerThread.Terminate;
 end;
 
 procedure TMainForm.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -194,13 +139,34 @@ begin
   infoMemo.Lines.Add(S);
 end;
 
+procedure TMainForm.Status(const S: string);
+begin
+  StatusBar1.Panels[0].Text:=S;
+end;
+
 procedure TMainForm.Cancel();
 begin
-  RunFlag := False;
-  CardWorker.Reset();
-  //config.CurrentCardValue := curValue;
-  config.Save;
-  Output('Отмена операции.');
+  PostThreadMessage(WorkerThread.ThreadID,WM_TASK_FINISH,0,0);
+end;
+
+procedure TMainForm.OnThreadLog(var aMessage: TLMessage);
+begin
+  Output(pChar(aMessage.LParam));
+end;
+
+procedure TMainForm.OnThreadState(var aMessage: TLMessage);
+var
+  State: TCurrentWorkingState;
+begin
+  State := TCurrentWorkingState(Integer(aMessage.LParam));
+  case State of
+   cwsMultipleCard: Status('Запись карт');
+   cwsCleanCard: Status('Очистка карт');
+   cwsNoSpecialState: Status('Готов к работе');
+   cwsErrorConnection: Status('Ошибка соединения');
+   cwsFinished: Status('Остановлено')
+  end;
+
 end;
 
 end.

@@ -17,7 +17,11 @@ object MainForm: TMainForm
     Height = 23
     Top = 543
     Width = 440
-    Panels = <>
+    Panels = <    
+      item
+        Width = 100
+      end>
+    SimplePanel = False
   end
   object btnBar: TToolBar
     Left = 0

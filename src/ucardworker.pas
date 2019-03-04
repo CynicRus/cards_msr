@@ -10,24 +10,25 @@ uses
 type
 
   { TCardWorker }
-  TConnectState = (csNoConn = 0,csConnected = 1);
+  TConnectState = (csNoConn = 0, csConnected = 1, csErrorConn = 2);
 
   TCardWorker = class
-    private
-      FMsrWorker: TMsrWorker;
-      FState: TConnectState;
-    public
-      procedure Connect;
-      constructor Create;
-      destructor Destroy;override;
-      function GetFirmware(): string;
-      function ReadCard(): string;
-      function WriteCard(): string;overload;
-      function WriteCard(Data: string): string;overload;
-      procedure EraseCard();
-      procedure Reset();
+  private
+    FMsrWorker: TMsrWorker;
+    FState: TConnectState;
+  public
+    procedure Connect;
+    procedure Disconnect;
+    constructor Create;
+    destructor Destroy; override;
+    function GetFirmware(): string;
+    function ReadCard(): string;
+    function WriteCard(): string; overload;
+    function WriteCard(Data: string): string; overload;
+    procedure EraseCard();
+    procedure Reset();
 
-      property State: TConnectState read FState write FState;
+    property State: TConnectState read FState write FState;
 
   end;
 
@@ -38,8 +39,18 @@ implementation
 procedure TCardWorker.Connect;
 begin
   FMsrWorker.ComName := Config.ComPortName;
+  FMsrWorker.EncoderMode := config.EncoderMode;
   FMsrWorker.Connect;
-  State := csConnected;
+  if FMsrWorker.GetConnectionStatus() then
+    State := csConnected
+  else
+    State := csErrorConn;
+end;
+
+procedure TCardWorker.Disconnect;
+begin
+  FMsrWorker.Disconnect;
+  State := csNoConn;
 end;
 
 constructor TCardWorker.Create;
@@ -50,7 +61,7 @@ end;
 destructor TCardWorker.Destroy;
 begin
   if FmsrWorker <> nil then
-   FMsrWorker.Free;
+    FMsrWorker.Free;
   inherited Destroy;
 end;
 
@@ -61,13 +72,13 @@ begin
   str := '';
   str := FMsrWorker.GetFirmware();
 
-  result := str;
+  Result := str;
 
 end;
 
 function TCardWorker.ReadCard(): string;
 begin
-  result := FMsrWorker.ReadCard();
+  Result := FMsrWorker.ReadCard();
 end;
 
 function TCardWorker.WriteCard(): string;
@@ -76,13 +87,13 @@ var
 begin
   Data := '';
   Data := config.CardPrefix + IntToStr(config.CurrentCardValue);
-  result := WriteCard(Data);
+  Result := WriteCard(Data);
 end;
 
 function TCardWorker.WriteCard(Data: string): string;
 begin
- FMsrWorker.WriteCard('',Data,'');
- result := Data;
+  FMsrWorker.WriteCard('', Data, '');
+  Result := Data;
 end;
 
 procedure TCardWorker.EraseCard();
@@ -96,4 +107,3 @@ begin
 end;
 
 end.
-

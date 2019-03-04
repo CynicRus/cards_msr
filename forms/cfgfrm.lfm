@@ -1,10 +1,10 @@
 object frmCfg: TfrmCfg
   Left = 549
-  Height = 118
+  Height = 192
   Top = 377
   Width = 269
-  Caption = 'frmCfg'
-  ClientHeight = 118
+  Caption = 'Настройка'
+  ClientHeight = 192
   ClientWidth = 269
   OnActivate = FormActivate
   LCLVersion = '2.0.0.4'
@@ -27,10 +27,32 @@ object frmCfg: TfrmCfg
   object Button1: TButton
     Left = 96
     Height = 25
-    Top = 72
+    Top = 144
     Width = 75
     Caption = 'Ok'
     OnClick = Button1Click
     TabOrder = 1
+  end
+  object ModeBox: TComboBox
+    Left = 24
+    Height = 23
+    Top = 88
+    Width = 100
+    ItemHeight = 15
+    ItemIndex = 0
+    Items.Strings = (
+      'Hi-Co'
+      'Low-Co'
+    )
+    TabOrder = 2
+    Text = 'Hi-Co'
+  end
+  object Label2: TLabel
+    Left = 24
+    Height = 15
+    Top = 68
+    Width = 95
+    Caption = 'Режим энкодера:'
+    ParentColor = False
   end
 end

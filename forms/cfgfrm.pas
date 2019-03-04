@@ -13,7 +13,9 @@ type
 
   TfrmCfg = class(TForm)
     Button1: TButton;
+    ModeBox: TComboBox;
     Label1: TLabel;
+    Label2: TLabel;
     SpinEdit1: TSpinEdit;
     procedure Button1Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
@@ -35,11 +37,14 @@ implementation
 procedure TfrmCfg.FormActivate(Sender: TObject);
 begin
   SpinEdit1.Value:=config.CurrentCardValue;
+  ModeBox.ItemIndex:=config.EncoderMode;
+
 end;
 
 procedure TfrmCfg.Button1Click(Sender: TObject);
 begin
   config.CurrentCardValue:=spinedit1.Value;
+  config.EncoderMode:=ModeBox.ItemIndex;
   config.Save;
   close;
 end;

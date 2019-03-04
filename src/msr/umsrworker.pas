@@ -13,12 +13,15 @@ type
   TMSRWorker = class
     private
       FComName: string;
+      FEncoderMode: integer;
       FTransport: TMSRTransport;
       FBuilder: TMSRDataBuilder;
     public
       constructor Create();
       destructor Destroy;override;
       procedure Connect;
+      procedure Disconnect;
+      function GetConnectionStatus(): boolean;
       //function WriteCard(Data: Integer):string;
       function WriteCard(Track1,Track2,Track3: string): string;
       function ReadCard():string;
@@ -26,6 +29,7 @@ type
       function GetFirmware(): string;
       procedure Reset();
       property ComName: string read FComName write FComName;
+      property EncoderMode: integer read FEncoderMode write FEncoderMode;
 
   end;
 
@@ -54,6 +58,16 @@ begin
   FTransport.Connect;
 end;
 
+procedure TMSRWorker.Disconnect;
+begin
+  FTransport.Disconnect;
+end;
+
+function TMSRWorker.GetConnectionStatus(): boolean;
+begin
+  result := FTransport.Connected;
+end;
+
 function TMSRWorker.WriteCard(Track1, Track2, Track3: string): string;
 var
   Tr1,Tr2,Tr3,EncData: TByteArray;
@@ -64,7 +78,11 @@ begin
   Tr3 := StrToByte(Track3);
   CMD := FBuilder.MakeReset;
   FTransport.Send(Pointer(@CMD[0]),Length(CMD));
-  CMD := FBuilder.MakeSetHiCo;
+  //CMD := FBuilder.MakeSetHiCo;
+  case EncoderMode of
+  0: CMD := FBuilder.MakeSetHiCo;
+  1: CMD := FBuilder.MakeSetLowCo;
+  end;
   FTransport.SendData(Pointer(@CMD[0]),Length(CMD));
   Cmd := FBuilder.MakeSetBPC;
   DynArrayAppend(Cmd,$07);
