@@ -62,6 +62,7 @@ begin
     else
       LogData('Карта пуста.');
     LogData('Операция завершена.');
+    state := cwsFinished;
   except
     on E: Exception do
       LogData(E.Message);
@@ -77,6 +78,7 @@ begin
     LogData('Запись карты:');
     LogData('Записано: ' + CardWorker.WriteCard(Data));
     LogData('Операция завершена.');
+    state := cwsFinished;
   except
     on E: Exception do
       LogData(E.Message);
@@ -143,36 +145,41 @@ begin
     begin
       TranslateMessage(aMsg);
       DispatchMessage(aMsg);
-    end;
-
-    if ((state = cwsErrorConnection) and (aMsg.message <> WM_TASK_RELOAD_CONFIG)) then
-    begin
-      sleep(100);
-      continue;
-    end;
-
-    case aMsg.message of
-      WM_TASK_READ_CARD: ReadCard();
-      WM_TASK_WRITE_SINGLE_CARD: WriteSingleCard(aMsg);
-      WM_TASK_WRITE_BATCH_CARD: state := cwsMultipleCard;
-      WM_TASK_CLEAN_CARD: state := cwsCleanCard;
-      WM_TASK_FINISH: state := cwsFinished;
-      WM_TASK_RELOAD_CONFIG: ;
-    end;
-
-    if not (State = cwsFinished) then
-    begin
-      case state of
-        cwsMultipleCard: WriteMultipleCard();
-        cwsCleanCard: CleanCard();
-      end;
     end
     else
+      aMsg.message := 0;
+    if aMsg.message <> 0 then
     begin
-      StopTasks();
+      if ((state = cwsErrorConnection) and (aMsg.message <> WM_TASK_RELOAD_CONFIG)) then
+      begin
+        sleep(100);
+        continue;
+      end;
+
+      case aMsg.message of
+        WM_TASK_READ_CARD: ReadCard();
+        WM_TASK_WRITE_SINGLE_CARD: WriteSingleCard(aMsg);
+        WM_TASK_WRITE_BATCH_CARD: state := cwsMultipleCard;
+        WM_TASK_CLEAN_CARD: state := cwsCleanCard;
+        WM_TASK_FINISH: state := cwsFinished;
+        WM_TASK_RELOAD_CONFIG: ;
+      end;
+
+      if not (State = cwsFinished) then
+      begin
+        case state of
+          cwsMultipleCard: WriteMultipleCard();
+          cwsCleanCard: CleanCard();
+        end;
+      end
+      else
+      begin
+        StopTasks();
+      end;
+      Sleep(10);
+      SendMessage(wnd, WM_THREAD_STATE, 0, integer(state));
+
     end;
-    Sleep(10);
-    SendMessage(wnd, WM_THREAD_STATE, 0, integer(state));
   end;
 
 end;
