@@ -28,7 +28,7 @@ const
   MSR_STS_RW_ERR = $31;  //Read/write error */
   MSR_STS_RW_CMDFMT_ERR = $32;  // Command format error */
   MSR_STS_RW_CMDBAD_ERR = $34;  // Invalid command */
-  MSR_STS_RW_SWIPEBAD_ERR = $39;  // Invalud card swipe in write mode */
+  MSR_STS_RW_SWIPEBAD_ERR = $39;  // Invalid card swipe in write mode */
 
   {
  * Read/write start and end delimiters.

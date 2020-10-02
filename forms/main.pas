@@ -14,6 +14,7 @@ type
 
   TMainForm = class(TForm)
     btnImgList: TImageList;
+    StopBtn: TButton;
     infoGB: TGroupBox;
     MainMenu1: TMainMenu;
     infoMemo: TMemo;
@@ -38,6 +39,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure infoMemoKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure StopBtnClick(Sender: TObject);
   private
 
   public
@@ -72,13 +74,17 @@ end;
 
 procedure TMainForm.btnMultipleCardClick(Sender: TObject);
 begin
+  StopBtn.Visible := true;
   PostThreadMessage(WorkerThread.ThreadID,WM_TASK_WRITE_BATCH_CARD,0,0);
-  cnclFrm.ShowModal;
+
+  //cnclFrm.ShowModal;
 end;
 
 procedure TMainForm.btnCleanCardClick(Sender: TObject);
 begin
-  cnclFrm.ShowModal;
+  StopBtn.Visible := true;
+  PostThreadMessage(WorkerThread.ThreadID,WM_TASK_CLEAN_CARD,0,0);
+  //cnclFrm.Show;
 end;
 
 //читаем вторую дорожку с карты
@@ -89,7 +95,7 @@ end;
 
 procedure TMainForm.btnSettingsClick(Sender: TObject);
 begin
-  frmcfg.ShowModal;
+  frmcfg.Show;
 end;
 
 procedure TMainForm.btnWriteCardClick(Sender: TObject);
@@ -114,6 +120,7 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   WorkerThread := TCardThread.Create(false,MainForm.Handle);
+  StopBtn.Visible:=false;
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -132,6 +139,12 @@ procedure TMainForm.infoMemoKeyDown(Sender: TObject; var Key: word; Shift: TShif
 begin
   if (Key = VK_ESCAPE) then
     Cancel();
+end;
+
+procedure TMainForm.StopBtnClick(Sender: TObject);
+begin
+  self.Cancel();
+  StopBtn.Visible:=false;
 end;
 
 procedure TMainForm.Output(const S: string);

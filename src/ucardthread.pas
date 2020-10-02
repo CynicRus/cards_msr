@@ -50,12 +50,9 @@ procedure TCardThread.ReadCard();
 var
   Response: string;
 begin
-  Response := '';
   try
     LogData('Читаю карту:');
-
     Response := CardWorker.ReadCard();
-
     Response := ExtractBetween(Response, ';', '?');
     if Length(Response) > 0 then
       LogData(Response)
@@ -72,12 +69,23 @@ end;
 procedure TCardThread.WriteSingleCard(aMsg: TMsg);
 var
   Data: string;
+  CardData: string;
 begin
+  LogData('Запись карты:');
   try
     Data := PChar(aMsg.lParam);
-    LogData('Запись карты:');
-    LogData('Записано: ' + CardWorker.WriteCard(Data));
-    LogData('Операция завершена.');
+    CardData := CardWorker.WriteCard(Data);
+    LogData('Записано: ' + CardData);
+    case CardWorker.StatusByte of
+      $30: LogData('Операция завершена.');
+      $31: LogData('Выполнено с ошибкой чтения/записи.');
+      $32: LogData('Неправильный формат команды!');
+      $34: LogData('Неправильная команда!');
+      $39: LogData('Неправильно проведена карта!');
+    end;
+
+
+
     state := cwsFinished;
   except
     on E: Exception do
@@ -86,11 +94,20 @@ begin
 end;
 
 procedure TCardThread.WriteMultipleCard();
+var
+  CardData: string;
 begin
   try
-    LogData('Запись карту:');
-    LogData('Записано: ' + CardWorker.WriteCard());
-    LogData('Операция завершена.');
+    LogData('Запись карты:');
+    CardData := CardWorker.WriteCard();
+    LogData('Записано: ' + CardData);
+    case CardWorker.StatusByte of
+      $30: LogData('Операция завершена.');
+      $31: LogData('Выполнено с ошибкой чтения/записи.');
+      $32: LogData('Неправильный формат команды!');
+      $34: LogData('Неправильная команда!');
+      $39: LogData('Неправильно проведена карта!');
+    end;
     config.CurrentCardValue := Config.CurrentCardValue + 1;
     config.Save;
   except
@@ -113,7 +130,7 @@ end;
 
 procedure TCardThread.LogData(const str: string);
 begin
-  SendMessage(wnd, WM_THREAD_LOG, 0, integer(PChar(str)));
+  PostMessage(wnd, WM_THREAD_LOG, 0, UIntPtr(PChar(str)));
 end;
 
 procedure TCardThread.StopTasks();
@@ -145,10 +162,11 @@ begin
     begin
       TranslateMessage(aMsg);
       DispatchMessage(aMsg);
-    end
-    else
-      aMsg.message := 0;
-    if aMsg.message <> 0 then
+    end else
+    Sleep(100);
+
+
+    if aMsg.message > 0 then
     begin
       if ((state = cwsErrorConnection) and (aMsg.message <> WM_TASK_RELOAD_CONFIG)) then
       begin
@@ -164,25 +182,23 @@ begin
         WM_TASK_FINISH: state := cwsFinished;
         WM_TASK_RELOAD_CONFIG: ;
       end;
-
-      if not (State = cwsFinished) then
-      begin
-        case state of
-          cwsMultipleCard: WriteMultipleCard();
-          cwsCleanCard: CleanCard();
-        end;
-      end
-      else
-      begin
-        StopTasks();
-      end;
-      Sleep(10);
-      SendMessage(wnd, WM_THREAD_STATE, 0, integer(state));
-
     end;
+    aMsg.message:=0;
+
+    case state of
+        cwsMultipleCard: WriteMultipleCard();
+        cwsCleanCard: CleanCard();
+        cwsNoSpecialState: sleep(100);
+        cwsFinished: StopTasks();
+    end;
+
+    //Sleep(10);
+    PostMessage(wnd, WM_THREAD_STATE, 0, integer(state));
   end;
 
 end;
+
+
 
 constructor TCardThread.Create(CreateSuspended: boolean; FormHandle: HWND);
 begin

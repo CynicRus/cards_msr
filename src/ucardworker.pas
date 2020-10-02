@@ -16,6 +16,7 @@ type
   private
     FMsrWorker: TMsrWorker;
     FState: TConnectState;
+    FStatusByte: byte;
   public
     procedure Connect;
     procedure Disconnect;
@@ -29,6 +30,7 @@ type
     procedure Reset();
 
     property State: TConnectState read FState write FState;
+    property StatusByte: byte read FStatusByte write FStatusByte;
 
   end;
 
@@ -91,8 +93,15 @@ begin
 end;
 
 function TCardWorker.WriteCard(Data: string): string;
+var
+  Status: array of byte;
+  Str : string;
 begin
-  FMsrWorker.WriteCard('', Data, '');
+  Str := FMsrWorker.WriteCard('', Data, '');
+  SetLength(Status, Length(Str));
+  Move(Str[1],Status[0],Length(Str));
+  StatusByte := Status[1];
+
   Result := Data;
 end;
 

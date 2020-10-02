@@ -15,24 +15,24 @@ type
     public
       Constructor Create;
       Destructor Destroy;override;
-      function MakeCommTest: TByteArray;
-      function MakeCheckFirmware: TByteArray;
-      function MakeCheckDeviceModel: TByteArray;
-      function MakeSensorTest: TByteArray;
-      function MakeRAMTest: TByteArray;
-      function MakeSetHiCo:TByteArray;
-      function MakeSetLowCo:TByteArray;
-      function MakeReset: TByteArray;
-      function MakeMSRWriteISO: TByteArray;
-      function MakeMSRWriteRaw: TByteArray;
-      function MakeRWStart: TByteArray;
-      function MakeMSRReadISO: TByteArray;
-      function MakeMSRReadRaw: TByteArray;
-      function MakeErase: TByteArray;
-      function MakeEraseAll: TByteArray;
-      function MakeSetBPI: TByteArray;
-      function MakeSetBPC: TByteArray;
-      function MakeLeadingZeroes:TByteArray;
+      procedure MakeCommTest(out Arr: TByteArray);
+      procedure MakeCheckFirmware(out Arr: TByteArray);
+      procedure MakeCheckDeviceModel(out Arr: TByteArray);
+      procedure MakeSensorTest(out Arr: TByteArray);
+      procedure MakeRAMTest(out Arr: TByteArray);
+      procedure MakeSetHiCo(out Arr: TByteArray);
+      procedure MakeSetLowCo(out Arr: TByteArray);
+      procedure MakeReset(out Arr: TByteArray);
+      procedure MakeMSRWriteISO(out Arr: TByteArray);
+      procedure MakeMSRWriteRaw(out Arr: TByteArray);
+      procedure MakeRWStart(out Arr: TByteArray);
+      procedure MakeMSRReadISO(out Arr: TByteArray);
+      procedure MakeMSRReadRaw(out Arr: TByteArray);
+      procedure MakeErase(out Arr: TByteArray);
+      procedure MakeEraseAll(out Arr: TByteArray);
+      procedure MakeSetBPI(out Arr: TByteArray);
+      procedure MakeSetBPC(out Arr: TByteArray);
+      procedure MakeLeadingZeroes(out Arr: TByteArray);
   end;
 
 implementation
@@ -55,166 +55,167 @@ begin
   inherited Destroy;
 end;
 
-function TMSRDataBuilder.MakeCommTest: TByteArray;
+procedure TMSRDataBuilder.MakeCommTest(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_DIAG_COMM);
-  Result := MyArr;
+  Move(Cmd,Arr[0],SizeOf(TMSRCmd));
+  //Result := MyArr;
 end;
 
-function TMSRDataBuilder.MakeCheckFirmware: TByteArray;
+procedure TMSRDataBuilder.MakeCheckFirmware(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_FWREV);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeCheckDeviceModel: TByteArray;
+procedure TMSRDataBuilder.MakeCheckDeviceModel(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_MODEL);
-  Result := MyArr;
+  Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeSensorTest: TByteArray;
+procedure TMSRDataBuilder.MakeSensorTest(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_DIAG_SENSOR);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeRAMTest: TByteArray;
+procedure TMSRDataBuilder.MakeRAMTest(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_DIAG_RAM);
-  Result := MyArr;
+  Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeSetHiCo: TByteArray;
+procedure TMSRDataBuilder.MakeSetHiCo(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_SETCO_HI);
-  Result := MyArr;
+  Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeSetLowCo: TByteArray;
+procedure TMSRDataBuilder.MakeSetLowCo(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_SETCO_LO);
-  Result := MyArr;
+  Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeReset: TByteArray;
+procedure TMSRDataBuilder.MakeReset(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_RESET);
-  Result := MyArr;
+  Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeMSRWriteISO: TByteArray;
+procedure TMSRDataBuilder.MakeMSRWriteISO(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+  SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_WRITE);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeMSRWriteRaw: TByteArray;
+procedure TMSRDataBuilder.MakeMSRWriteRaw(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_RAW_WRITE);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeRWStart: TByteArray;
+procedure TMSRDataBuilder.MakeRWStart(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_RW_START);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeMSRReadISO: TByteArray;
+procedure TMSRDataBuilder.MakeMSRReadISO(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_READ);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeMSRReadRaw: TByteArray;
+procedure TMSRDataBuilder.MakeMSRReadRaw(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_RAW_READ);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeErase: TByteArray;
+procedure TMSRDataBuilder.MakeErase(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_ERASE);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeEraseAll: TByteArray;
+procedure TMSRDataBuilder.MakeEraseAll(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_ERASE_ALL);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeSetBPI: TByteArray;
+procedure TMSRDataBuilder.MakeSetBPI(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_SETBPI);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeSetBPC: TByteArray;
+procedure TMSRDataBuilder.MakeSetBPC(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_SETBPC);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
-function TMSRDataBuilder.MakeLeadingZeroes: TByteArray;
+procedure TMSRDataBuilder.MakeLeadingZeroes(out Arr: TByteArray);
 var
   Cmd: TMSRCmd;
-  MyArr : array[0..1] of byte absolute Cmd;
 begin
+   SetLength(Arr,SizeOf(TMSRCmd));
   Cmd := MakeCommand(MSR_CMD_SLZ);
-  Result := MyArr;
+   Move(Cmd,Arr[0],SizeOf(TMSRCmd));
 end;
 
 
@@ -222,4 +223,5 @@ end;
 
 
 end.
+
 
